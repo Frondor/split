@@ -23,7 +23,7 @@ describe("Autentication middleware", () => {
       response = await request(app)
         .post("/auth/login")
         .send(VALID_USER_CREDENTIALS);
-
+      debugger;
       expect(response.headers["set-cookie"][0]).toMatch(
         /HttpOnly.*Secure|Secure.*HttpOnly/
       );

@@ -1,36 +1,5 @@
-class JsonWebToken {
-  constructor(jwt = '') {
-    this.token = token;
-  }
+// const JsonWebToken = require('./JsonWebToken');
+const AuthService = require('./AuthService');
 
-  toString() {
-    return this.token;
-  }
-
-  toJSON() {
-    return this.payload;
-  }
-}
-
-class AuthService {
-  async login(credentials) {
-    const user = await this.authenticate(credentials);
-
-    if () {
-    }
-
-    return jwt;
-  }
-
-  logout(jwt) {
-
-  }
-
-  can(jwt) {
-
-  }
-}
-
-module.exports = {
-  auth: new AuthService()
-};
+// module.exports.JsonWebToken = JsonWebToken;
+module.exports.AuthService = new AuthService();
