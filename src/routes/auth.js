@@ -1,24 +1,18 @@
-const { AuthService } = require("../services");
+const { Auth } = require("../services");
 
-const user = () => {};
+const user = async (req, res) => {
+  res.json(req.jwtPayload);
+};
 
 const login = async (req, res) => {
-  const jwt = await AuthService.authenticate({
+  const jwt = await Auth.authenticate({
     user: req.body.user,
     pass: req.body.pass
   });
 
-  const cookieOptions = {
-    httpOnly: true,
-    secure: true,
-    // maxAge: jwt.payload.ttl,
-    expires: new Date(jwt.payload.exp),
-    signed: false // not needed since the cookie content is part of the already-signed JWT
-  };
+  const [header, payload, signature] = jwt.toString().split(".");
 
-  const [ header, signature, payload ] = jwt.toString().split('.');
-
-  res.cookie("token", signature, cookieOptions);
+  res.cookie("token", signature, Auth.getCookieOptions());
   res.json({ token: payload });
 };
 

@@ -1,5 +1,14 @@
-// const JsonWebToken = require('./JsonWebToken');
-const AuthService = require('./AuthService');
+const path = require('path');
+const AuthService = require("./AuthService");
+const ConfigService = require("./ConfigService");
+const BlacklistService = require("./BlacklistService");
 
-// module.exports.JsonWebToken = JsonWebToken;
-module.exports.AuthService = new AuthService();
+const Config = new ConfigService(path.join(__dirname, '../config'));
+const Auth = new AuthService(Config.get("auth"));
+const Blacklist = new BlacklistService();
+
+module.exports = {
+  Config,
+  Auth,
+  Blacklist
+};

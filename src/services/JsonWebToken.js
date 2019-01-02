@@ -1,7 +1,7 @@
 const jsonwebtoken = require("jsonwebtoken");
 
 module.exports = class JsonWebToken {
-  constructor({ secret, algorithm, payload = {} }) {
+  constructor({ secret, algorithm }, payload = {}) {
     this.secret = secret;
     this.algorithm = algorithm;
 
@@ -11,7 +11,7 @@ module.exports = class JsonWebToken {
 
   sign() {
     return jsonwebtoken.sign(this.payload, this.secret, {
-      algo: this.algorithm,
+      algorithm: this.algorithm,
       mutatePayload: true
     });
   }

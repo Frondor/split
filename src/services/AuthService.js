@@ -1,6 +1,21 @@
-const authConfig = require("../config/auth");
+const JsonWebToken = require("./JsonWebToken");
 
-module.exports = class AuthService {
+class AuthService {
+  constructor(config) {
+    this.config = config;
+    this.baseHeader = new JsonWebToken({ ...this.config.jwt })
+      .toString()
+      .split(".", 1)[0];
+  }
+
+  get secret() {
+    return this.config.jwt.secret;
+  }
+
+  getCookieOptions(overrides) {
+    return { ...this.config.cookie, ...overrides };
+  }
+
   async getUserFromCredentials(credentials = {}) {
     const { user, pass } = credentials;
     if (user !== "test_user" && pass !== "test_pass") {
@@ -15,19 +30,14 @@ module.exports = class AuthService {
 
   async authenticate(credentials) {
     const user = await this.getUserFromCredentials(credentials);
+    const payload = { uid: user.id };
 
-    const config = {
-      ...authConfig.jwt,
-      payload: {
-        uid: user.id
-      }
-    };
-    const jwt = new JsonWebToken(config);
-
-    return jwt;
+    return new JsonWebToken(this.config.jwt, payload);
   }
 
   logout(jwt) {}
 
   can(jwt) {}
-};
+}
+
+module.exports = AuthService;
