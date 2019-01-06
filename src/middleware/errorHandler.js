@@ -3,8 +3,13 @@ module.exports = function errorHandler(err, req, res, next) {
     return next(err);
   }
 
-  if (err.name === "UnauthorizedError") {
-    res.status(401).send("invalid token...");
+  if (err.name === 'UnauthorizedError') {
+    return res.status(401).json({
+      error: {
+        name: err.name,
+        code: 'EUNAUTH',
+      },
+    });
   }
 
   // const stack = process.env.NODE_ENV !== "production" && err.stack;

@@ -1,6 +1,6 @@
-const { sync: loadFiles } = require("fast-glob");
-const path = require("path");
-const _ = require("lodash");
+const { sync: loadFiles } = require('fast-glob');
+const path = require('path');
+const _ = require('lodash');
 
 class ConfigService {
   constructor(dirName) {
@@ -11,14 +11,15 @@ class ConfigService {
   }
 
   init() {
-    const files = loadFiles("./**/*.js", {
+    const files = loadFiles('./**/*.js', {
       onlyFiles: true,
       cwd: this.basePath,
       deep: 2,
       transform: fileName => ({
-        name: fileName.replace(".js", "").replace("/", "."),
-        contents: require(path.join(this.basePath, fileName))
-      })
+        name: fileName.replace('.js', '').replace('/', '.'),
+        // eslint-disable-next-line global-require
+        contents: require(path.join(this.basePath, fileName)),
+      }),
     });
 
     files.map(file => _.set(this.store, file.name, file.contents));

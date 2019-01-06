@@ -1,28 +1,24 @@
-const server = require("../src/server");
-const request = require("supertest");
-const cert = require("fs").readFileSync("./cert/server.cert");
-const { AuthService } = require("../src/services");
-const {
-  VALID_USER_CREDENTIALS,
-  INVALID_USER_CREDENTIALS
-} = require("./_utils");
+const server = require('../src/server');
+const request = require('supertest');
+const cert = require('fs').readFileSync('./cert/server.cert');
+const { VALID_USER_CREDENTIALS } = require('./_utils');
 
-describe("Authorization middleware", () => {
-  describe("TEST: VALID tokens", () => {
-    describe("WHEN: GET /user", () => {
-      it("SHOULD: return 200", async () => {
+describe('Authorization middleware', () => {
+  describe('TEST: VALID tokens', () => {
+    describe('WHEN: GET /user', () => {
+      it('SHOULD: return 200', async () => {
         const agent = await request
           .agent(server, { ca: cert })
-          .connect({ "*": "https://localhost:3000" });
+          .connect({ '*': 'https://localhost:3000' });
 
         const { token } = await agent
-          .post("https://localhost:3000/auth/login")
+          .post('https://localhost:3000/auth/login')
           .send(VALID_USER_CREDENTIALS);
 
-        response = await agent
+        const response = await agent
           .withCredentials()
-          .set("Authentication", "Bearer " + token)
-          .get("/user");
+          .set('Authentication', 'Bearer ' + token)
+          .get('/user');
 
         expect(response.body).toMatchObject({ uid: 2 });
       });

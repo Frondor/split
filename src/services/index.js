@@ -1,14 +1,11 @@
 const path = require('path');
-const AuthService = require("./AuthService");
-const ConfigService = require("./ConfigService");
-const BlacklistService = require("./BlacklistService");
+const AuthService = require('./AuthService');
+const ConfigService = require('./ConfigService');
 
 const Config = new ConfigService(path.join(__dirname, '../config'));
-const Auth = new AuthService(Config.get("auth"));
-const Blacklist = new BlacklistService();
+const Auth = new AuthService(Config.get('auth'));
 
 module.exports = {
   Config,
   Auth,
-  Blacklist
 };

@@ -1,26 +1,30 @@
-const jsonwebtoken = require("jsonwebtoken");
+const jsonwebtoken = require('jsonwebtoken');
 
 module.exports = class JsonWebToken {
-  constructor({ secret, algorithm }, payload = {}) {
+  constructor(config) {
+    const { secret, algorithm, expiresIn, payload = {} } = config;
     this.secret = secret;
     this.algorithm = algorithm;
 
     this.payload = { ...payload };
-    this.token = this.sign();
+    this.payload.iat = Math.floor(Date.now() / 1000);
+    this.payload.exp = this.payload.iat + expiresIn;
+    this.payload.jid = `${this.payload.uid}:${this.payload.iat}`;
   }
 
   sign() {
     return jsonwebtoken.sign(this.payload, this.secret, {
       algorithm: this.algorithm,
-      mutatePayload: true
+      mutatePayload: true,
     });
   }
 
   toString() {
+    if (!this.token) this.token = this.sign();
     return this.token;
   }
 
   toJSON() {
-    return this.token;
+    return this.toString();
   }
 };

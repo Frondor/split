@@ -1,3 +1,4 @@
+// Fake in-memory storage
 class Blacklist {
   constructor() {
     this.store = {};
@@ -5,7 +6,7 @@ class Blacklist {
   }
 
   get(key) {
-    return this.store[key];
+    return Promise.resolve(this.store[key]);
   }
 
   set(key, value, { ttl }) {
@@ -13,6 +14,8 @@ class Blacklist {
     if (ttl) {
       this.timers[key] = setTimeout(() => this.delete(key), ttl);
     }
+
+    return Promise.resolve();
   }
 
   delete(key) {

@@ -1,6 +1,6 @@
-const app = require("./app");
-var fs = require("fs");
-var https = require("https");
+const app = require('./app');
+var fs = require('fs');
+var https = require('https');
 
 const PORT = 3000;
 
@@ -8,9 +8,10 @@ const PORT = 3000;
 module.exports = https
   .createServer(
     {
-      key: fs.readFileSync("./cert/server.key"),
-      cert: fs.readFileSync("./cert/server.cert")
+      key: fs.readFileSync('./cert/server.key'),
+      cert: fs.readFileSync('./cert/server.cert'),
     },
     app
   )
+  // eslint-disable-next-line no-console
   .listen(PORT, () => console.log(`Example app listening on port ${PORT}!`));

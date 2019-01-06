@@ -1,0 +1,16 @@
+{
+  "extends": ["eslint:recommended", "plugin:node/recommended"],
+  "rules": {
+    "node/exports-style": ["error", "module.exports"],
+    "global-require": "error",
+    "no-trailing-spaces": "error",
+    "object-curly-spacing": ["error", "always"],
+    "no-global-assign": "error",
+    "no-param-reassign": "error",
+    "semi": ["error", "always"],
+    "quotes": ["error", "single"],
+    "comma-dangle": ["error", "always-multiline"],
+    "no-multiple-empty-lines": "error",
+    "max-len": ["error", 100]
+  }
+}
